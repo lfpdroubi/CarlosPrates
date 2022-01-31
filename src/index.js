@@ -1,7 +1,7 @@
 var quadras = $.ajax({
   url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/Quadras.geojson",
   dataType: "json",
-  success: console.log("Archeology data successfully loaded."),
+  success: console.log("Quadras data successfully loaded."),
   error: function (xhr) {
     alert(xhr.statusText);
   }
@@ -17,9 +17,9 @@ var limites = $.ajax({
 });
 
 var areasVerdes = $.ajax({
-  url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/AreaVerdes.geojson",
+  url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/AreasVerdes.geojson",
   dataType: "json",
-  success: console.log("Zoning data successfully loaded."),
+  success: console.log("AreasVerdes data successfully loaded."),
   error: function (xhr) {
     alert(xhr.statusText);
   }
@@ -28,7 +28,7 @@ var areasVerdes = $.ajax({
 var institucional = $.ajax({
   url:"https://raw.githubusercontent.com/lfpdroubi/CarlosPrates/master/AreaInstitucional.geojson",
   dataType: "json",
-  success: console.log("Geology data successfully loaded."),
+  success: console.log("Institutinal data successfully loaded."),
   error: function (xhr) {
     alert(xhr.statusText);
   }
@@ -101,7 +101,7 @@ var institucional = $.ajax({
 
   var LIMITES = L.geoJSON(limites.responseJSON, {
     style: {
-      color: 'green',
+      color: 'yellow',
       weight: 2
     },
     onEachFeature: function( feature, layer ){
@@ -123,19 +123,19 @@ var institucional = $.ajax({
 */
   var Quadras = L.Proj.geoJson(quadras.responseJSON, {
     style: {
-      color: 'yellow',
+      color: 'blue',
       weight: 2
     },
     onEachFeature: function( feature, layer ){
       layer.bindPopup(
-        "<b>Área (m2): </b>" + feature.properties.Area"
-      )
+        "<b>Área (m2): </b>" + feature.properties.Area
+      );
     }
-  });
+  }).addTo(map);
 
   var AreasVerdes = L.geoJSON(areasVerdes.responseJSON, {
     style: {
-      color: 'yellow',
+      color: 'green',
       weight: 2
     },
     onEachFeature: function( feature, layer ){
@@ -147,7 +147,7 @@ var institucional = $.ajax({
 
   var Institucional = L.Proj.geoJson(institucional.responseJSON, {
     style: {
-      color: 'red',
+      color: 'orange',
       weight: 2
     },
     onEachFeature: function( feature, layer ){
@@ -194,13 +194,9 @@ var institucional = $.ajax({
 
   var overlays = {
 		"Limites": LIMITES,
-		"Zoneamento": ZONEAMENTO,
-		"Arqueologia": ARQUEOLOGIA,
-		"Geologia": GEOLOGIA,
-		"Geomorfologia": GEOMORFOLOGIA,
-		"Edificações": EDIFICACOES,
-	  "Drenagem": DRENAGEM,
-	  "Trilhas": TRILHAS
+		"Quadras": Quadras,
+		"institucional": Institucional,
+		"Áreas Verdes": AreasVerdes
 	};
 
 	L.control.layers(baseLayers, overlays).addTo(map);
